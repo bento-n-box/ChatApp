@@ -21,9 +21,10 @@ var RoomController = {
 		},
 		
 		create: function(req, res){
-			Room.create(req.body, function(err, room){ //req.body represents all the data that came through post
+			RoomModel.create(req.body, function(err, room){ //req.body represents all the data that came through post
 				res.json(201, room);
 			}); 
+
 		},
 		
 		update: function(req, res){

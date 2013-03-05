@@ -7,5 +7,5 @@
       destroy : 'DELETE /rooms/{id}' 
     }, {});
     
-    window.Application.Models.Room = Room
+    window.Application.Models.Room = Room;
  })();
