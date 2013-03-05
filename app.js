@@ -16,6 +16,7 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
+
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -42,7 +43,7 @@ app.configure('development', function(){
 });
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
@@ -51,7 +52,7 @@ passport.deserializeUser(function(user, done) {
 
 
 var GoogleStrategy = require('passport-google').Strategy;
- var UserModel = require('./models/usermodel');
+var UserModel = require('./models/usermodel');
 passport.use(new GoogleStrategy({
     returnURL: 'http://localhost:3000/auth/google/return',
     realm: 'http://localhost:3000'

@@ -12,5 +12,10 @@
     "mongoose": "*",
     "passport": "*",
     "passport-google": "*"
-    }
+    },
+   "engines": {
+    "node": "0.8.20",
+    "npm": "1.2.11"
+  }
+}
 } 
