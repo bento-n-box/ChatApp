@@ -1,4 +1,4 @@
-var RoomMode = require('../models/roommodel.js')
+var RoomModel = require('../models/roommodel.js')
 	;
 
 
@@ -13,7 +13,7 @@ var RoomController = {
 		},
 		
 		show: function(req, res){
-			RoomModel.findbyID(req.params.id, function(err, room){
+			RoomModel.findById(req.params.id, function(err, room){
 				if (err) return res.json(500, {error:'internal'});
 				res.json(200, room);
 			});

@@ -25,7 +25,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
-  app.use(express.session());
+  app.use(express.session()); // wire up sessions so mongo db remembers session and stores it
   app.use(passport.initialize()); 	// Needed for Passport in this location
   app.use(passport.session());		// Needed for Passport in this location
   app.use(app.router);
@@ -66,8 +66,24 @@ passport.use(new GoogleStrategy({
 
 
 route(app);
+var server = http.createServer(app)
+var io = require('socket.io').listen(server);
 
-
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
+});
+
+io.sockets.on('connection', function (socket) {
+	
+		socket.emit('message', {message: "Connected to Chat! ", from:"system"});// emit is a nother name for trigger
+		
+		socket.on('join', function (data) {
+		    socket.join(data.room);
+		    socket.emit('message', {message:'You are now in room '+data.room, from: 'system'});
+		    socket.broadcast.to(data.room).emit('message', {message: data.from+' has joined the room', from:'system'});
+		  });
+		
+		socket.on('message', function(data){
+			socket.broadcast.to(data.room).emit('message', data);
+		});
 });
