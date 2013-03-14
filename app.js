@@ -77,13 +77,18 @@ io.sockets.on('connection', function (socket) {
 	
 		socket.emit('message', {message: "Connected to Chat! ", from:"system"});// emit is a nother name for trigger
 		
-		socket.on('join', function (data) {
+		socket.on('join', function (data, room, room_name) {
+			
 		    socket.join(data.room);
-		    socket.emit('message', {message:'You are now in room '+data.room, from: 'system'});
+		    socket.emit('message', {message:'Room: '+ data.room, from: 'system'});
 		    socket.broadcast.to(data.room).emit('message', {message: data.from+' has joined the room', from:'system'});
 		  });
 		
-		socket.on('message', function(data){
-			socket.broadcast.to(data.room).emit('message', data);
+		socket.on('message', function(data, room){
+			socket.broadcast.to(data.room).emit('message', data );
+		});
+		socket.on('dialogue', function(data, room){
+			socket.broadcast.to(data.room).emit('dialogue', data );
+			console.log('step 2');
 		});
 });

@@ -29,7 +29,7 @@ buf.push('<form><input name="title" placeholder="Room title..." type="text"/><in
 
 buf.push('<li><a');
 buf.push(attrs({ 'href':("#!" + (room._id) + "") }, {"href":true}));
-buf.push('>' + escape((interp = room.title) == null ? '' : interp) + '</a></li>');
+buf.push('>' + escape((interp = room.title) == null ? '' : interp) + '  <a href="#" class="destroy">Delete  </a></a></li>');
     }
 
   } else {
@@ -39,7 +39,7 @@ buf.push('>' + escape((interp = room.title) == null ? '' : interp) + '</a></li>'
 
 buf.push('<li><a');
 buf.push(attrs({ 'href':("#!" + (room._id) + "") }, {"href":true}));
-buf.push('>' + escape((interp = room.title) == null ? '' : interp) + '</a></li>');
+buf.push('>' + escape((interp = room.title) == null ? '' : interp) + '  <a href="#" class="destroy">Delete  </a></a></li>');
     }
 
   }

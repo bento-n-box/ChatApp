@@ -7,11 +7,13 @@
       },
       
       "#outgoing keyup": function(textarea, event, data, room){
+	     	var self = this;
 	      if(!event.shiftKey && event.which==13){
-		      var message = textarea.val();
-		      this.socket.emit('message', {room:this.room._id, message:message, from:this.options.user.displayName})
-		      this.element.find('#incoming').append('<p>'+ message+'</p>');
+		      var dialogue = textarea.val();
+		      self.socket.emit('dialogue', {room:room, dialogue:textarea.val(), from:this.options.user.displayName});
+		      this.element.find('#incoming').append('<pre class="user">Me: '+ dialogue+'</pre>');
 		      textarea.val('');   
+		      console.log('step 1');
 	      }
       },
       
@@ -22,7 +24,6 @@
       	var title = $(form).children('input[type="text"]').val();
       	var Room = new RoomModel({title:title});
       	Room.save(function (room) {
-      		console.log(room);
       		//can.route.attr({room_id: room._id})
       		window.location.hash = '#!'+room._id;
       	});
@@ -43,11 +44,16 @@
 			  
 			  self.element.html(Templates["pages/partial.room.jade"]);
 			  self.socket = io.connect(window.location.origin); // points to root of current domain name url
-			  self.socket.emit('join', {room:room._id, from:self.options.user.displayName});  
+			  self.socket.emit('join', {room:room._data.title, from:self.options.user.displayName, room_name:room._data.title});  
+			  
+			  
 			  self.socket.on('message', function(data){
-				   self.element.find('#incoming').append('<p> ' + data.message +'</p>')
-				  
-			   })
+				   self.element.find('#incoming').append('<p class="system">' + data.message +'</p>');
+			   });
+			  self.socket.on('dialogue', function(data){
+				   self.element.find('#incoming').append('<p class="buddy">' + self.options.user.displayName + ": "+ data.dialogue +'</p>');
+				   console.log('step 3');
+			   });
 		    })
 	    }
     });
