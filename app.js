@@ -57,6 +57,11 @@ app.configure('development', function(){
   //mongoose.connect('mongodb://localhost/chat_DEV');
 });
 
+app.configure('production', function(){
+  //app.use(express.errorHandler());
+ // mongoose.connect('mongodb://localhost/chat_DEV');
+});
+
 
 
 
@@ -96,7 +101,7 @@ io.sockets.on('connection', function (socket) {
 					
 		socket.on('join', function (data) {
 		    RoomModel.findById(data.room, 'title', function(err, room){
-		    	if(!err && data.room){`
+		    	if(!err && data.room){
 			    	socket.join(room._id);
 				    socket.emit('message', {message:'Room: '+ room.title, from: 'system', source: 'system', avatar:"" });
 				    socket.broadcast.to(data.room).emit('message', {message: data.from + ' has joined the room', from:'system', source: 'system', avatar:""});

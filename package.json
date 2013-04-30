@@ -14,6 +14,12 @@
     "passport-google": "*",
     "socket.io": "*",
     "connect-mongo": "*"
-    }
+   },
+   "devDependencies": {
+	   "grunt": "0.4.1",
+	   "grunt-contrib-stylus": "0.5.0",
+	   "grunt-contrib-watch": "0.3.1",
+	   "grunt-contrib-uglify": "0.2.0"
+   }
 
 } 

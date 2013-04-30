@@ -12,7 +12,6 @@ var AccountController = {
 		UserModel.findByIdAndUpdate(req.user._id, {avatar:image}, function(err, user){
 			req.session.user = user;
 			res.render('account/show', {user:user});
-			console.log(req.session.user)
 		});
 		console.log(req.files);
 	} // update funtion
