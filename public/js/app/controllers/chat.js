@@ -7,13 +7,17 @@
       },
       
       "#outgoing keyup": function(textarea, event, data, room){
-	     	var self = this;
-	      if(!event.shiftKey && event.which==13){
-		      var dialogue = textarea.val();
-		      self.socket.emit('dialogue', {room:room, dialogue:textarea.val(), from:this.options.user.displayName});
-		      this.element.find('#incoming').append('<pre class="user">Me: '+ dialogue+'</pre>');
-		      textarea.val('');   
-		      console.log('step 1');
+	      var user;
+		  if(event.which==13){ 
+		      var self = this;
+		      message = textarea.val();	
+		      if(!event.shiftKey ){	     
+			      self.socket.emit('message', {room:this.room._id, message:message, from:this.options.user.displayName, source: 'incoming', avatar:this.options.user.avatar});
+			      //var regex = /(\n|\r)/g;
+			      this.element.find('#incoming').append(Templates["pages/partial.message.jade"]({message:message, source:'outgoing', from:'outgoing', avatar:this.options.user.avatar}));
+
+			      textarea.val('');   
+		      }    
 	      }
       },
       
@@ -28,33 +32,41 @@
       		window.location.hash = '#!'+room._id;
       	});
       },
+      
 
-      "route": function () {
-      	var self = this;
-      	RoomModel.findAll({}, function (rooms) {
-      		self.element.html(Templates["pages/partial.rooms.jade"]({rooms:rooms}));
-      	});	
-      },          
-       
+      "route": function (data, room) {
+      		   var self=this;
+		      if(self.socket){
+		        self.socket.emit('leave', {room:self.room._id, from:self.options.user.displayName});
+		      }
+		      RoomModel.findAll({}, function(rooms){ //.findAll is an ajax call to the back end
+		        self.element.html(Templates["pages/partial.rooms.jade"]({rooms:rooms})); //renders html partial.rooms.jade
+		      });
+      			
+      }, 
+  
 	   ":room_id route": function(data, room) {
 		    var self = this; // Self points to controller
-		    
-		    RoomModel.findOne({id:data.room_id}, function(room){
-			  self.room = room;
-			  
-			  self.element.html(Templates["pages/partial.room.jade"]);
-			  self.socket = io.connect(window.location.origin); // points to root of current domain name url
-			  self.socket.emit('join', {room:room._data.title, from:self.options.user.displayName, room_name:room._data.title});  
-			  
-			  
-			  self.socket.on('message', function(data){
-				   self.element.find('#incoming').append('<p class="system">' + data.message +'</p>');
-			   });
-			  self.socket.on('dialogue', function(data){
-				   self.element.find('#incoming').append('<p class="buddy">' + self.options.user.displayName + ": "+ data.dialogue +'</p>');
-				   console.log('step 3');
-			   });
-		    })
+		    	
+		    RoomModel.findOne({id: data.room_id}, function(room){
+				
+				self.room = room;	
+				self.element.html(Templates["pages/partial.room.jade"]);
+					
+				if(!self.socket){
+					self.socket = io.connect(window.location.origin); // points to root of current domain name url
+					var source = 'incoming';
+					self.socket.on('message', function(data){
+						var regex = /(\n|\r)/g					     	
+					  	self.element.find('#incoming').append(Templates["pages/partial.message.jade"](data));
+					});
+				}
+				else{
+					self.socket.socket.connect();					
+				}
+				self.socket.emit('join', {room:room._id, from:self.options.user.displayName, roomName:room.title});  
+				
+			});
 	    }
     });
      

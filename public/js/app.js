@@ -13,7 +13,6 @@
 	},{
 		// Instance of prototype properties 
 		//instances created of new application
-		
 	});
 	
 })()

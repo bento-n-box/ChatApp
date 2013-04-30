@@ -1,6 +1,7 @@
 var  PagesController = require('../controllers/pagescontroller')
 	,AuthController = require('../controllers/AuthController')
 	,RoomController = require('../controllers/RoomController')
+	,AccountController = require('../controllers/AccountController')
 	,passport = require('passport')
 	,express = require('express');
 
@@ -17,6 +18,9 @@ var route = function (app, user) {
 	app.get('/help', PagesController.help);
 	app.get('/login', AuthController.login);
 	app.get('/logout', AuthController.logout);
+	
+	app.get('/account', AccountController.show);
+	app.post('/account', AccountController.update);
 	
 	
 	// Redirect the user to Google for authentication.  When complete, Google

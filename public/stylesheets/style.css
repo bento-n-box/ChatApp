@@ -17,3 +17,32 @@ a {
   overflow: scroll;
   border: solid 1px #ccc;
 }
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #00b7ff;
+}
+.system {
+  font-style: italic;
+  font-size: 12px;
+  font-family: serif;
+}
+.user {
+  background: rgba(148,180,255,0.59);
+  margin: 3px;
+  padding: 5px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+.buddy {
+  text-align: right;
+  margin: 3px;
+  padding: 5px;
+  background: rgba(255,148,148,0.59);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}

@@ -1,12 +1,15 @@
 var AuthController = {
 	
 	login: function (req, res) {
-		res.render('auth/login', {title: "Please Login to Chat"})
+		res.render('auth/login')
 	},
 	logout: function (req, res){ // property that is read like json
-		delete req.sessions.passport.user; //destroys session
-		res.redirect('/login');// comes with express 	
+		req.logOut();
+		res.redirect('/login');
 		
+	},
+	account: function (req, res){
+		res.render('account');
 	}
 
 };

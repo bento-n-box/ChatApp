@@ -1,6 +1,13 @@
-extends ../layout
 
+include ../partials/header
 block content
-	ul	
-		li
-			a(href="/auth/google") Login with Google
+	.container
+		form.form-signin
+			h2.form-signin-heading Please sign in
+			input.input-block-level(type='text', placeholder='Email address')
+			input.input-block-level(type='password', placeholder='Password')
+			label.checkbox
+				input(type='checkbox', value='remember-me') | Remember me
+				button.btn.btn-large.btn-primary(type='submit') Sign in
+		a.btn.btn-large.btn-primary(href="/auth/google") Sign in with Google
+		a.btn.btn-large.btn-primary(href="/auth/google") Sign in with Twitter
