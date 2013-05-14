@@ -12,11 +12,24 @@ module.exports = function(grunt) {
 		      }
 		  }
 	  },
+	  mochaTest: {
+		  files: ['test/**/*.js']
+      },
+	  mochaTestConfig: {
+		  options: {
+		    reporter: 'list',
+		    ui: 'bdd'       
+	    }
+	  },
 	  watch: {
 		scripts: {
-		    files: ['public/stylesheets/**/*.css'],
+		    files: ['public/stylesheets/**/*.styl'],
 		    tasks: ['default']
-		 }
+		 },
+		test: {
+	      files: ['models/*', 'controllers/*', 'test/**/*.js'],
+	      tasks: ['test'],
+	    },
 	  },
 	  uglify: {
 	  	options: {
@@ -45,8 +58,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-stylus');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-mocha-test');
 
   // Default task(s).
   grunt.registerTask('default', ['stylus','uglify']);
+  grunt.registerTask('test', 'mochaTest');
 
 };

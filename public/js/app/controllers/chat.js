@@ -28,7 +28,6 @@
       	var title = $(form).children('input[type="text"]').val();
       	var Room = new RoomModel({title:title});
       	Room.save(function (room) {
-      		//can.route.attr({room_id: room._id})
       		window.location.hash = '#!'+room._id;
       	});
       },

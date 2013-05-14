@@ -14,7 +14,6 @@ var RoomController = {
 		
 		show: function(req, res){
 			RoomModel.findById(req.params.id, function(err, room){
-			
 				console.log(room);
 				if (err) return res.json(500, {error:'internal'});
 				res.json(200, room);
